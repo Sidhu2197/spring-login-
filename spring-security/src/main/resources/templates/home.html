@@ -1,25 +1,69 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="container">
-    <div class="card">
-        <h2>Welcome, <span th:text="${username}">User</span>!</h2>
-        <p class="subtitle">You are successfully logged in.</p>
 
-        <div class="home-content">
-            <p>You have access to this protected page. Use the button below to sign out.</p>
+    <nav class="navbar">
+        <div class="logo">FitAI</div>
+        <ul class="nav-links">
+            <li><a href="#coach">AI Coach</a></li>
+            <li><a href="#nutrition">Nutrition Hub</a></li>
+            <li><a href="#vision">Vision Scanner</a></li>
+        </ul>
+        <div class="nav-user">
+            Welcome, <span th:text="${username}">User</span> &nbsp;|&nbsp;
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn-logout">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <section id="coach" class="section">
+        <h2>Smart AI Trainer</h2>
+        <p>Tell us your goal</p>
+        <div class="input-container">
+            <textarea id="userInput" placeholder="Type your body goal here..."></textarea>
+            <button onclick="suggestWorkout()">Get My Plan</button>
+        </div>
+        <div id="workoutResult" class="result-box"></div>
+    </section>
+
+    <hr>
+
+    <section id="nutrition" class="section">
+        <h2>Nutrition Insights</h2>
+        <p>Enter a food item to see what your body gains.</p>
+        <div class="input-container">
+            <input type="text" id="foodInput" placeholder="e.g., Chicken Breast, Banana, Eggs">
+            <button onclick="analyzeFood()">Analyze Food</button>
+        </div>
+        <div id="foodResult" class="result-box"></div>
+    </section>
+
+    <hr>
+
+    <section id="vision" class="section">
+        <h2>AI Vision Scanner</h2>
+        <p>Upload a photo of your meal to identify ingredients and protein.</p>
+
+        <div class="upload-container">
+            <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+            <label for="imageUpload" class="upload-btn">📸 Select Food Photo</label>
         </div>
 
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    </div>
-</div>
+        <div id="preview-area" class="preview-box" style="display:none;">
+            <img id="outputImage" src="#" alt="Food Preview">
+            <button onclick="analyzeImage()" class="btn-scan">Scan Ingredients</button>
+        </div>
+
+        <div id="visionResult" class="result-box"></div>
+    </section>
+
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>
